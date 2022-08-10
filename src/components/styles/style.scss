@@ -1,0 +1,231 @@
+$text-color: #3a3232;
+$orange: #fba968;
+$blue: #a7c7f7e5;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  color: unset;
+  border: 0;
+  outline: 0;
+}
+// body()
+input {
+  font-size: 15px;
+  //   height: -webkit-fill-available;
+  border-bottom: 1px solid rgba(96, 96, 96, 0.5);
+  &:-internal-autofill-selected {
+    background-color: unset !important;
+  }
+}
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+button,
+select {
+  //   color: #ffffff;
+  background-color: $blue;
+  &:hover {
+    cursor: pointer;
+  }
+}
+header {
+  h1 {
+    text-align: center;
+  }
+}
+.extra-details {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 7px;
+}
+.msg-box {
+  margin: 50px auto;
+  .msg-area {
+    padding: 10px 0px 10vh 0px;
+    .text-box {
+      min-height: 50px;
+      padding: 2px 3px 10px 3px;
+      width: -webkit-fill-available;
+      display: flex;
+      justify-content: flex-start;
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+
+      .bar {
+        width: 3px;
+      }
+      .second {
+        width: -webkit-fill-available;
+        .sender {
+          text-transform: uppercase;
+          font-size: 12px;
+          padding-left: 5px;
+          padding-bottom: 2px;
+        }
+        .msg-content {
+          padding-left: 5px;
+          word-break: break-all;
+          width: 100%;
+        }
+      }
+    }
+  }
+  form {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+    input {
+      color: $text-color;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      width: 85%;
+      padding-left: 4px;
+      button {
+        width: 70px;
+        padding: 2px;
+        width: 15%;
+      }
+    }
+  }
+}
+.get-started {
+  overflow-x: hidden;
+  padding: 30px 5vw 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  //   background: rgb(255, 255, 255);
+  background: #ffffff;
+  .intro {
+    h1 {
+      padding-bottom: 5px;
+    }
+    p {
+    }
+  }
+  .details {
+    display: flex;
+    justify-content: space-between;
+    height: calc(100vh - 170px);
+    .images {
+      overflow: hidden;
+      width: 60%;
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        &.one {
+          transform: translate(-100vw, -50%);
+        }
+        &.two {
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+    .form {
+      position: relative;
+      width: 40%;
+      form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: max-content;
+        margin: auto;
+        display: flex;
+        div {
+          input {
+            height: 38px;
+            padding: 2px 2px 2px 3px;
+            width: 200px;
+          }
+          div {
+            opacity: 0;
+            color: red;
+            font-size: 0.7rem;
+          }
+        }
+
+        button {
+          height: 38px;
+          line-height: normal;
+          padding: 8px 24px;
+        }
+      }
+    }
+  }
+  .extra {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+  }
+}
+
+//color
+.blue {
+  .bar {
+    background-color: #42e6dd;
+  }
+  .sender {
+    color: #42e6dd;
+  }
+}
+.red {
+  .bar {
+    background-color: #e77a99;
+  }
+  .sender {
+    color: #e77a99;
+  }
+}
+.green {
+  .bar {
+    background-color: #cdfa84;
+  }
+  .sender {
+    color: #cdfa84;
+  }
+}
+.orange {
+  .bar {
+    background-color: #ea7c37;
+  }
+  .sender {
+    color: #ea7c37;
+  }
+}
+.brown {
+  .bar {
+    background-color: #7d6c4d;
+  }
+  .sender {
+    color: #7d6c4d;
+  }
+}
+.purple {
+  .bar {
+    background-color: #c672c2;
+  }
+  .sender {
+    color: #c672c2;
+  }
+}
+.yellow {
+  .bar {
+    background-color: yellow;
+  }
+  .sender {
+    color: yellow;
+  }
+}
