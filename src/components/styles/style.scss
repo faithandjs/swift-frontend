@@ -58,36 +58,35 @@ ul {
   header {
     padding: 20px 30px 10px;
     background-color: $light_orange;
-    .first {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      h1 {
-        color: #fff;
-        font-size: 2.6rem;
-      }
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    h1 {
+      color: #fff;
+      width: 70%;
+    }
+    .more-details {
+      max-width: 150px;
       .img-box {
-        text-align: end;
+        text-align: center;
         padding-right: 10px;
         img {
           width: clamp(50px, 14%, 100px);
         }
       }
-    }
-    .second {
-      padding: 2px 0 10px;
-      display: flex;
-      width: 100%;
-      justify-content: flex-end;
       .users {
         position: relative;
+        display: flex;
+        justify-content: center;
         .me {
+          text-align: end;
           padding-right: 0;
-          margin-right: 1.35vw;
+          padding: 0 ;
           display: flex;
           align-items: center;
           color: unset;
           background-color: unset;
+          font-size: 0.95rem;
           p {
             font-weight: bold;
             color: rgb(255, 255, 255);
@@ -140,7 +139,7 @@ ul {
     margin: 40px auto 5px;
     position: relative;
     .msg-area {
-      min-height: 55vh;
+      min-height: 62vh;
       padding-bottom: 10px;
       .text-box {
         min-height: 50px;
@@ -364,15 +363,13 @@ ul {
   .extra {
     text-align: center;
     font-size: 1.3rem;
-    margin: 15px 0  ;
+    margin: 15px 0;
   }
 }
 
 @media screen and (max-width: 810px) {
   .get-started {
     overflow-x: hidden;
-    .intro {
-    }
     .details {
       display: block;
       height: auto;
@@ -421,6 +418,22 @@ ul {
       }
     }
     .extra {
+    }
+  }
+}
+@media screen and (max-width: 414px) {
+  body {
+    font-size: 14px;
+  }
+  .messaging {
+    header {
+      padding: 20px 10px 10px;
+      .more-details {
+        max-width: 100px;
+        .users .me{
+          font-size: .9rem;
+        }
+      }
     }
   }
 }

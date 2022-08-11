@@ -41,6 +41,7 @@ export const GetStarted = () => {
       senderId: string,
       dateSent: Date
     ) => {
+      console.log(chat)
       let color = "brown";
       let sender = name;
       if (senderId === myId.current) {
@@ -269,13 +270,11 @@ export const GetStarted = () => {
         style={{ display: response ? "block" : "none" }}
       >
         <header className="header">
-          <div className="first">
-            <h1>swift.</h1>
+          <h1>swift.</h1>
+          <div className="more-details">
             <div className="img-box">
               <img src={avatar} alt="" />
             </div>
-          </div>
-          <div className="second">
             <div className="users">
               <button
                 className="me"
