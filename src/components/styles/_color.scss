@@ -1,0 +1,77 @@
+$text-color: #4d4343;
+$blue: #7ec6f9;
+$green: #5e9253;
+$lighter_green: #9ce78d;
+
+$orange: #ff8000; //#ea7c37
+$light_orange: #fba968;
+$dark_orange: #c83200;
+$pastel_blue: #4682b4;
+$blue: #000080;
+$success_green: rgb(14, 218, 14);
+
+//color
+.blue {
+  .bar {
+    background-color: $pastel_blue;
+  }
+  .sender {
+    color: $pastel_blue;
+  }
+}
+.red {
+  .bar {
+    background-color: #e77a99;
+  }
+  .sender {
+    color: #e77a99;
+  }
+}
+.green {
+  .bar {
+    background-color: #cdfa84;
+  }
+  .sender {
+    color: #cdfa84;
+  }
+}
+.orange {
+  .bar {
+    background-color: $dark_orange;
+  }
+  .sender {
+    color: $dark_orange;
+  }
+}
+.brown {
+  .bar {
+    background-color: #f8b73d;
+  }
+  .sender {
+    color: #f8b73d;
+  }
+}
+.purple {
+  .bar {
+    background-color: #c672c2;
+  }
+  .sender {
+    color: #c672c2;
+  }
+}
+.deep-blue {
+  .bar {
+    background-color: rgb(17, 0, 255);
+  }
+  .sender {
+    color: rgb(17, 0, 255);
+  }
+}
+.default-green {
+  .bar {
+    background-color: $green;
+  }
+  .sender {
+    color: $green;
+  }
+}
