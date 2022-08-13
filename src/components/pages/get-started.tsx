@@ -38,7 +38,7 @@ export const GetStarted = () => {
     },
     {
       color: "teal",
-      dateSent: 1592814691000,
+      dateSent: 1655160593000,
       msg: "hellooooo",
       name: "debs_admin",
       senderId: "WtyB3Gix_bPfa9UbAAAH",
@@ -85,7 +85,7 @@ export const GetStarted = () => {
       ".details .form form div div"
     )!;
     const transi = gsap.timeline();
- 
+    if (res && name.length > 0) {
       errMsg.style.opacity = "0";
       transi.to(".form form", {
         x: "-100vw",
@@ -102,7 +102,7 @@ export const GetStarted = () => {
           duration: 0.2,
         },
         "<"
-      );   if (res && name.length > 0) {
+      );
     } else if (!res && name.length > 0) {
       errMsg.textContent = "Username not available";
       errMsg.style.opacity = "1";
@@ -181,7 +181,27 @@ export const GetStarted = () => {
                   if (name.trim().length > 10) {
                     errMsg.textContent = "Username should be 1-10 characters";
                     errMsg.style.opacity = "1";
-                  } else socket.emit("username", name);
+                  } else {
+                    const transi = gsap.timeline();
+                    errMsg.style.opacity = "0";
+                    transi.to(".form form", {
+                      x: "-100vw",
+                      height: "0px",
+                      opacity: 0,
+                      duration: 0,
+                    });
+                    transi.to(
+                      ".form .next",
+                      {
+                        height: "max-content",
+                        x: 0,
+                        opacity: 1,
+                        duration: 0.2,
+                      },
+                      "<"
+                    );
+                    socket.emit("username", name);
+                  }
                 } else {
                   errMsg.textContent = "Enter username";
                   errMsg.style.opacity = "1";
