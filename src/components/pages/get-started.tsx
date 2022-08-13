@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import "../styles/style.scss";
 import io from "socket.io-client";
 import img from "../images/The Little Things - UI Design.png";
-import imgx from "../images/Brainstorming.png";
 import { gsap } from "gsap";
 import ava1 from "../images/images/avataaars (1).png";
 import ava2 from "../images/images/avataaars (2).png";
@@ -13,6 +12,8 @@ import ava6 from "../images/images/avataaars (6).png";
 import ava7 from "../images/images/avataaars (7).png";
 import ava8 from "../images/images/avataaars (8).png";
 import ava9 from "../images/images/avataaars (9).png";
+import arrow64 from "../images/icons8-arrow-64.png";
+import send47 from "../images/icons8-email-send-48.png";
 
 const socket = io("http://localhost:4000");
 interface chatProps {
@@ -20,7 +21,7 @@ interface chatProps {
   msg: string;
   color: string;
   senderId: string;
-  dateSent: Date;
+  dateSent: number;
 }
 export const GetStarted = () => {
   const [name, setName] = useState("");
@@ -37,44 +38,17 @@ export const GetStarted = () => {
     (
       name: string,
       msg: string,
-      colorCode: number,
+      color: string,
       senderId: string,
-      dateSent: Date
+      dateSent: number
     ) => {
-      console.log(chat)
-      let color = "brown";
       let sender = name;
       if (senderId === myId.current) {
         sender = "me";
-        color = "default-green";
-      } else {
-        switch (colorCode) {
-          case 1:
-            color = "red";
-            break;
-          case 2:
-            color = "green";
-            break;
-          case 3:
-            color = "orange";
-            break;
-          case 4:
-            color = "brown";
-            break;
-          case 5:
-            color = "purple";
-            break;
-          case 6:
-            color = "blue";
-            break;
-          case 7:
-            color = "deep-blue";
-            break;
-        }
+        color = "red";
       }
 
       let temp: chatProps = { name: sender, msg, color, senderId, dateSent };
-
       if (chat.includes(temp)) {
         console.log("includes");
       } else {
@@ -82,7 +56,11 @@ export const GetStarted = () => {
       }
     }
   );
-  socket.on("my-id", (id) => (myId.current = id));
+  socket.on("details", (id, chatHistory) => {
+    console.log(id, chatHistory);
+    myId.current = id;
+    setChat(chatHistory);
+  });
   socket.on("in-chat", (users: string[]) => {
     setUsersAvailable(users);
   });
@@ -110,18 +88,9 @@ export const GetStarted = () => {
         "<"
       );
     } else if (!res && name.length > 0) {
+      errMsg.textContent = "Username not available";
       errMsg.style.opacity = "1";
     }
-  });
-  useEffect(() => {
-    // const one = document.querySelector(".images .one");
-    // const two = document.querySelector(".images .two");
-    // const rotate = gsap.timeline({ repeat: -1 });
-    // const delay = 25;
-    // rotate.to(one, { x: "-50%", duration: 2, delay: delay, ease: "expo.out" });
-    // rotate.to(two, { x: "100vw", duration: 2 }, "<");
-    // rotate.to(one, { x: "-2000px", duration: 2, delay: delay }, "<");
-    // rotate.to(two, { x: 0, duration: 2, ease: "expo.out" }, "<");
   });
   const settingAvatar = (ava: string, classname: string) => {
     document.querySelectorAll(".avatars button").forEach((item) => {
@@ -140,7 +109,40 @@ export const GetStarted = () => {
     });
     setAvatar(ava);
   };
-
+  const monthOfYear = (num: number) => {
+    switch (num + 1) {
+      case 1:
+        return "January";
+      case 2:
+        return "Febuary";
+      case 3:
+        return "March";
+      case 4:
+        return "April";
+      case 5:
+        return "May";
+      case 6:
+        return "June";
+      case 7:
+        return "July";
+      case 8:
+        return "August";
+      case 9:
+        return "September";
+      case 10:
+        return "October";
+      case 11:
+        return "November";
+      case 12:
+        return "December";
+      default:
+        return "This Month";
+    }
+  };
+  const time = (num: number) => {
+    if (num.toLocaleString().length === 1) return "0" + 1;
+    return num;
+  };
   return (
     <>
       <div
@@ -156,7 +158,18 @@ export const GetStarted = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (name.trim().length > 0) socket.emit("username", name);
+                const errMsg: HTMLDivElement = document.querySelector(
+                  ".details .form form div div"
+                )!;
+                if (name.trim().length > 0) {
+                  if (name.trim().length > 10) {
+                    errMsg.textContent = "Username should be 1-10 characters";
+                    errMsg.style.opacity = "1";
+                  } else socket.emit("username", name);
+                } else {
+                  errMsg.textContent = "Enter username";
+                  errMsg.style.opacity = "1";
+                }
               }}
             >
               <div className="box">
@@ -173,7 +186,7 @@ export const GetStarted = () => {
                     errMsg.style.opacity = "0";
                   }}
                 />
-                <div>Username not available</div>
+                <div></div>
               </div>
               <button type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg">
@@ -269,7 +282,10 @@ export const GetStarted = () => {
         className="messaging"
         style={{ display: response ? "block" : "none" }}
       >
-        <header className="header">
+        <header
+          className="header"
+          onClick={() => (list === "block" ? setList("none") : null)}
+        >
           <h1>swift.</h1>
           <div className="more-details">
             <div className="img-box">
@@ -310,36 +326,112 @@ export const GetStarted = () => {
         >
           <div className="msg-area">
             {chat.length > 0 ? (
-              chat.map((item, index) => (
-                <div
-                  key={index}
-                  className={"text-box " + item.color + " " + item.senderId}
-                >
-                  <div className={`bar`}></div>
-                  <div className="second">
-                    <div className={"sender"}>{item.name}</div>
-                    <div className="msg-content">{item.msg}</div>
+              chat.map((item, index) => {
+                const pastDate = new Date(
+                  index === 0 ? chat[index].dateSent : chat[index - 1].dateSent
+                );
+                const currentDate = new Date(item.dateSent);
+                const theTime = (
+                  <div className="time">
+                    {time(currentDate.getHours()) +
+                      " : " +
+                      time(currentDate.getMinutes())}
                   </div>
-                </div>
-              ))
+                );
+                let toReturn = (
+                  <div
+                    key={index}
+                    className={"text-box " + item.color + " " + item.senderId}
+                  >
+                    <div className={`bar`}></div>
+                    <div className="second">
+                      <div className="dets">
+                        <div className={"sender"}>{item.name}</div>
+                        <div className="time-box">{theTime}</div>
+                      </div>
+                      <div className="msg-content">{item.msg}</div>
+                    </div>
+                  </div>
+                );
+                if (
+                  pastDate.getFullYear() < currentDate.getFullYear() ||
+                  index === 0
+                ) {
+                  console.log("past year smaller");
+                  return (
+                    <>
+                      <div className="date-box">
+                        <div className="year">{currentDate.getFullYear()}</div>
+                        <div className="date">
+                          {currentDate.getDate() +
+                            ", " +
+                            monthOfYear(currentDate.getMonth())}
+                        </div>
+                      </div>
+                      <div
+                        key={index}
+                        className={
+                          "text-box " + item.color + " " + item.senderId
+                        }
+                      >
+                        <div className={`bar`}></div>
+                        <div className="second">
+                          <div className="dets">
+                            <div className={"sender"}>{item.name}</div>
+                            <div className="time-box">{theTime}</div>
+                          </div>
+                          <div className="msg-content">{item.msg}</div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                } else {
+                  if (pastDate.getMonth() < currentDate.getMonth()) {
+                    if (pastDate.getDate() < currentDate.getDate()) {
+                      return (
+                        <>
+                          <div className="date-box">
+                            <div className="date">
+                              {currentDate.getDate() +
+                                ", " +
+                                monthOfYear(currentDate.getMonth())}
+                            </div>
+                          </div>
+                          <div
+                            key={index}
+                            className={
+                              "text-box " + item.color + " " + item.senderId
+                            }
+                          >
+                            <div className={`bar`}></div>
+                            <div className="second">
+                              <div className="dets">
+                                <div className={"sender"}>{item.name}</div>
+                                <div className="time-box">{theTime}</div>
+                              </div>
+                              <div className="msg-content">{item.msg}</div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    }
+                  }
+                }
+
+                return toReturn;
+              })
             ) : (
               <>
                 <div className="no-chat">
-                  <svg xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill="#949494"
-                      d="M32.833 20.708H6.625q-.333 0-.521-.208-.187-.208-.187-.5 0-.292.187-.479.188-.188.521-.188h26.208l-4.291-4.291q-.209-.209-.188-.459.021-.25.188-.458.208-.208.479-.208t.521.208l5.041 5.042q.167.208.271.416.104.209.104.417 0 .25-.104.458-.104.209-.271.375L29.5 25.958q-.208.167-.458.167t-.459-.208q-.208-.209-.208-.479 0-.271.208-.521Z"
-                    />
-                  </svg>{" "}
-                  <p>See users in chat </p>
+                  <div className="img-box">
+                    <img src={arrow64} alt="" />
+                  </div>
+                  <p>See users in chat</p>
                 </div>
                 <div className="no-chat">
-                  <svg xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill="#949494"
-                      d="M32.833 20.708H6.625q-.333 0-.521-.208-.187-.208-.187-.5 0-.292.187-.479.188-.188.521-.188h26.208l-4.291-4.291q-.209-.209-.188-.459.021-.25.188-.458.208-.208.479-.208t.521.208l5.041 5.042q.167.208.271.416.104.209.104.417 0 .25-.104.458-.104.209-.271.375L29.5 25.958q-.208.167-.458.167t-.459-.208q-.208-.209-.208-.479 0-.271.208-.521Z"
-                    />
-                  </svg>{" "}
+                  <div className="img-box">
+                    <img src={arrow64} alt="" />
+                  </div>
                   <p>Send a message</p>
                 </div>
               </>
@@ -350,7 +442,7 @@ export const GetStarted = () => {
             onSubmit={(e) => {
               e.preventDefault();
               if (msg.trim() !== "") {
-                socket.emit("msgSent", name, msg, myId.current, new Date());
+                socket.emit("msgSent", name, msg, myId.current, Date.now());
                 setMsg("");
               }
             }}
@@ -363,12 +455,7 @@ export const GetStarted = () => {
               placeholder="Message"
             />
             <button type="submit">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                <path
-                  fill="#fff"
-                  d="M3.025 19.95V4.025l18.825 7.95Zm2.05-3.1 11.45-4.875-11.45-4.85v3.325L11 11.975l-5.925 1.55Zm0 0V7.125v6.4Z"
-                />
-              </svg>
+              <img src={send47} alt="" />
             </button>
           </form>
         </div>

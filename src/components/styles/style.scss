@@ -1,4 +1,5 @@
 @import "./color";
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
 
 * {
   box-sizing: border-box;
@@ -24,7 +25,6 @@ button {
   padding: 10px 20px;
   font-size: 1rem;
   color: #fff;
-  background-color: $green;
   &:hover {
     cursor: pointer;
   }
@@ -56,11 +56,11 @@ ul {
 }
 .messaging {
   header {
-    padding: 20px 30px 10px;
-    background-color: $light_orange;
+    padding: 20px 0 10px 30px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    background-color: $blue;
     h1 {
       color: #fff;
       width: 70%;
@@ -81,7 +81,7 @@ ul {
         .me {
           text-align: end;
           padding-right: 0;
-          padding: 0 ;
+          padding: 0;
           display: flex;
           align-items: center;
           color: unset;
@@ -111,7 +111,8 @@ ul {
         .others {
           position: absolute;
           background-color: white;
-          right: -5px;
+          top: 125%;
+          z-index: 2;
           box-shadow: 0px 0px 2px 1px rgba(51, 51, 51, 0.178);
           max-height: 50vh;
           overflow-y: scroll;
@@ -136,11 +137,30 @@ ul {
     }
   }
   .msg-box {
-    margin: 40px auto 5px;
+    padding: 20px 0 5px;
     position: relative;
     .msg-area {
-      min-height: 62vh;
+      min-height: 67vh;
       padding-bottom: 10px;
+      .date-box {
+        background-color: #fff;
+        padding: 20px 10px 10px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        font-style: italic;
+        position: sticky;
+        top: 0;
+        .year,
+        .date {
+          color: $date_grey;
+        }
+        .year {
+        }
+        .date {
+          // text-transform: uppercase;
+        }
+      }
       .text-box {
         min-height: 50px;
         padding: 2px 3px 10px 3px;
@@ -149,18 +169,42 @@ ul {
         justify-content: flex-start;
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
-
+        &:active,
+        &:focus {
+          .bar {
+            //
+            width: calc(3px + clamp(10px, 3%, 30px));
+          }
+        }
         .bar {
           width: 3px;
+          transition: width 0.5s ease-in-out;
+          -webkit-transition: width 0.5s ease-in-out;
+          -moz-transition: width 0.5s ease-in-out;
+          -o-transition: width 0.5s ease-in-out;
         }
         .second {
           width: -webkit-fill-available;
-          .sender {
-            text-transform: uppercase;
-            font-size: 12px;
-            padding-left: 5px;
-            padding-bottom: 2px;
+          .dets {
+            padding-right: 10px;
+            display: flex;
+            justify-content: space-between;
+            .sender {
+              text-transform: uppercase;
+              font-size: 12px;
+              padding-left: 5px;
+              padding-bottom: 2px;
+            }
+            .time-box {
+              text-align: end;
+              font-size: 0.7rem;
+              font-style: italic;
+              .time {
+                color: $date_grey;
+              }
+            }
           }
+
           .msg-content {
             padding-left: 5px;
             word-break: break-all;
@@ -170,20 +214,20 @@ ul {
       }
       .no-chat {
         position: absolute;
-
         p {
-          font-size: 0.97rem;
-          color: #949494;
+          font-size: 1.7rem;
+          font-weight: bold;
+          color: #8d8d8d;
+          // font-family: 'Rubik Dirt', cursive;
         }
-        svg {
-          width: 48px;
-          height: 48px;
+        img {
+          width: 38px;
         }
         &:first-child {
-          right: 4%;
-          top: -18%;
+          right: 6%;
+          top: -1%;
           text-align: end;
-          svg {
+          img {
             transform: rotate(250deg);
             animation: arrow-up 1s ease-in-out 1s infinite;
           }
@@ -192,7 +236,9 @@ ul {
           display: flex;
           align-items: center;
           bottom: 20%;
-          svg {
+          img {
+            position: relative;
+            top: 20px;
             transform: rotate(70deg);
             animation: arrow-down 1s ease-in-out 1s infinite;
           }
@@ -216,13 +262,11 @@ ul {
         padding-left: 4px;
       }
       button {
-        padding: 10px 0;
+        padding: 14px 0 8px;
         width: clamp(39px, 5%, 500px);
-        // position: relative;
-        // height: 25px;
-        svg {
-          position: relative;
-          top: 10%;
+        background-color: rgba(192, 192, 192, 0.479);
+        img {
+          width: 25px;
         }
       }
     }
@@ -240,6 +284,9 @@ ul {
   width: 100%;
   height: 100%;
   background: #ffffff;
+  button {
+    background-color: $green;
+  }
   .intro {
     h1 {
       padding-bottom: 5px;
@@ -430,8 +477,8 @@ ul {
       padding: 20px 10px 10px;
       .more-details {
         max-width: 100px;
-        .users .me{
-          font-size: .9rem;
+        .users .me {
+          font-size: 0.9rem;
         }
       }
     }

@@ -1,14 +1,21 @@
 $text-color: #4d4343;
-$blue: #7ec6f9;
-$green: #5e9253;
-$lighter_green: #9ce78d;
+$green: #62b89e;
+$date_grey: rgb(167, 166, 166);
 
+$blue: #8080dd;//bg
+$btn_blue: rgb(24, 214, 251);
+$lighter_green: #9ce78d;
 $orange: #ff8000; //#ea7c37
 $light_orange: #fba968;
 $dark_orange: #c83200;
+$light_blue: #b7b7fa;
+
+$pink: #e77a99;
+$teal: #0e9797;
+$red: #f83d04;
 $pastel_blue: #4682b4;
-$blue: #000080;
-$success_green: rgb(14, 218, 14);
+$purple:  #c672c2;
+$deep_blue: rgb(17, 0, 255);
 
 //color
 .blue {
@@ -21,18 +28,18 @@ $success_green: rgb(14, 218, 14);
 }
 .red {
   .bar {
-    background-color: #e77a99;
+    background-color:$red ;
   }
   .sender {
-    color: #e77a99;
+    color: $red;
   }
 }
 .green {
   .bar {
-    background-color: #cdfa84;
+    background-color: $green;
   }
   .sender {
-    color: #cdfa84;
+    color: $green;
   }
 }
 .orange {
@@ -43,35 +50,35 @@ $success_green: rgb(14, 218, 14);
     color: $dark_orange;
   }
 }
-.brown {
+.teal {
   .bar {
-    background-color: #f8b73d;
+    background-color: $teal;
   }
   .sender {
-    color: #f8b73d;
+    color: $teal;
   }
 }
 .purple {
   .bar {
-    background-color: #c672c2;
+    background-color:$purple;
   }
   .sender {
-    color: #c672c2;
+    color: $purple;
   }
 }
 .deep-blue {
   .bar {
-    background-color: rgb(17, 0, 255);
+    background-color:$deep_blue;
   }
   .sender {
-    color: rgb(17, 0, 255);
+    color: $deep_blue;
   }
 }
-.default-green {
+.pink {
   .bar {
-    background-color: $green;
+    background-color: $pink;
   }
   .sender {
-    color: $green;
+    color: $pink;
   }
 }
