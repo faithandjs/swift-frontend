@@ -5,17 +5,18 @@ $date_grey: rgb(167, 166, 166);
 $blue: #8080dd;//bg
 $btn_blue: rgb(24, 214, 251);
 $lighter_green: #9ce78d;
-$orange: #ff8000; //#ea7c37
 $light_orange: #fba968;
 $dark_orange: #c83200;
 $light_blue: #b7b7fa;
 
 $pink: #e77a99;
 $teal: #0e9797;
-$red: #f83d04;
+$red: #f80404;
+$orange: #ff7b00; //
 $pastel_blue: #4682b4;
 $purple:  #c672c2;
 $deep_blue: rgb(17, 0, 255);
+$bar_green: #00ffb3;
 
 //color
 .blue {
@@ -36,18 +37,18 @@ $deep_blue: rgb(17, 0, 255);
 }
 .green {
   .bar {
-    background-color: $green;
+    background-color: $bar_green;
   }
   .sender {
-    color: $green;
+    color: $bar_green;
   }
 }
 .orange {
   .bar {
-    background-color: $dark_orange;
+    background-color: $orange;
   }
   .sender {
-    color: $dark_orange;
+    color: $orange;
   }
 }
 .teal {

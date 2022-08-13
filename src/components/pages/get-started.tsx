@@ -14,7 +14,9 @@ import ava8 from "../images/images/avataaars (8).png";
 import ava9 from "../images/images/avataaars (9).png";
 import arrow64 from "../images/icons8-arrow-64.png";
 import send47 from "../images/icons8-email-send-48.png";
+import blob from "../images/magicpattern-blob-1660424805603.png";
 
+// const socket = io("https://git.heroku.com/sleepy-sea-90825.git");
 const socket = io("http://localhost:4000");
 interface chatProps {
   name: string;
@@ -26,7 +28,22 @@ interface chatProps {
 export const GetStarted = () => {
   const [name, setName] = useState("");
   const [msg, setMsg] = useState("");
-  const [chat, setChat] = useState<chatProps[]>([]);
+  const [chat, setChat] = useState<chatProps[]>([
+    {
+      color: "teal",
+      dateSent: 1529656291000,
+      msg: "Hi this is a test",
+      name: "debs_admin",
+      senderId: "WtyB3Gix_bPfa9UbAAAH",
+    },
+    {
+      color: "teal",
+      dateSent: 1592814691000,
+      msg: "hellooooo",
+      name: "debs_admin",
+      senderId: "WtyB3Gix_bPfa9UbAAAH",
+    },
+  ]);
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
   const myId = useRef("");
   const [response, setResponse] = useState<boolean>(false);
@@ -57,7 +74,6 @@ export const GetStarted = () => {
     }
   );
   socket.on("details", (id, chatHistory) => {
-    console.log(id, chatHistory);
     myId.current = id;
     setChat(chatHistory);
   });
@@ -69,7 +85,7 @@ export const GetStarted = () => {
       ".details .form form div div"
     )!;
     const transi = gsap.timeline();
-    if (res && name.length > 0) {
+ 
       errMsg.style.opacity = "0";
       transi.to(".form form", {
         x: "-100vw",
@@ -86,7 +102,7 @@ export const GetStarted = () => {
           duration: 0.2,
         },
         "<"
-      );
+      );   if (res && name.length > 0) {
     } else if (!res && name.length > 0) {
       errMsg.textContent = "Username not available";
       errMsg.style.opacity = "1";
@@ -286,38 +302,35 @@ export const GetStarted = () => {
           className="header"
           onClick={() => (list === "block" ? setList("none") : null)}
         >
-          <h1>swift.</h1>
-          <div className="more-details">
-            <div className="img-box">
-              <img src={avatar} alt="" />
-            </div>
-            <div className="users">
-              <button
-                className="me"
-                onClick={() =>
-                  list === "block" ? setList("none") : setList("block")
-                }
-              >
-                <p>{name}</p>
-                <div>
-                  <svg xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      fill="#fff"
-                      d="M12 15.45 5.95 9.425 7.475 7.9 12 12.425 16.525 7.9l1.525 1.525Z"
-                    />
-                  </svg>
-                </div>
-              </button>
-              <ul className="others" style={{ display: list }}>
-                <li>Users</li>
-                {usersAvailable.map((item, index) => (
-                  <li key={index}>
-                    <span>{item}</span>
-                    <span></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="img-box">
+            <img src={avatar} alt="" />
+          </div>
+          <div className="users">
+            <button
+              className="me"
+              onClick={() =>
+                list === "block" ? setList("none") : setList("block")
+              }
+            >
+              <p>{name}</p>
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill="#fff"
+                    d="M12 15.45 5.95 9.425 7.475 7.9 12 12.425 16.525 7.9l1.525 1.525Z"
+                  />
+                </svg>
+              </div>
+            </button>
+            <ul className="others" style={{ display: list }}>
+              <li>Users</li>
+              {usersAvailable.map((item, index) => (
+                <li key={index}>
+                  <span>{item}</span>
+                  <span></span>
+                </li>
+              ))}
+            </ul>
           </div>
         </header>
         <div
@@ -338,42 +351,23 @@ export const GetStarted = () => {
                       time(currentDate.getMinutes())}
                   </div>
                 );
-                let toReturn = (
-                  <div
-                    key={index}
-                    className={"text-box " + item.color + " " + item.senderId}
-                  >
-                    <div className={`bar`}></div>
-                    <div className="second">
-                      <div className="dets">
-                        <div className={"sender"}>{item.name}</div>
-                        <div className="time-box">{theTime}</div>
-                      </div>
-                      <div className="msg-content">{item.msg}</div>
-                    </div>
-                  </div>
-                );
+
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0
                 ) {
-                  console.log("past year smaller");
                   return (
                     <>
                       <div className="date-box">
-                        <div className="year">{currentDate.getFullYear()}</div>
-                        <div className="date">
+                        <div>
                           {currentDate.getDate() +
+                            " " +
+                            monthOfYear(currentDate.getMonth()) +
                             ", " +
-                            monthOfYear(currentDate.getMonth())}
+                            currentDate.getFullYear()}
                         </div>
                       </div>
-                      <div
-                        key={index}
-                        className={
-                          "text-box " + item.color + " " + item.senderId
-                        }
-                      >
+                      <div key={index} className={"text-box " + item.color}>
                         <div className={`bar`}></div>
                         <div className="second">
                           <div className="dets">
@@ -391,18 +385,13 @@ export const GetStarted = () => {
                       return (
                         <>
                           <div className="date-box">
-                            <div className="date">
+                            <div>
                               {currentDate.getDate() +
-                                ", " +
+                                " " +
                                 monthOfYear(currentDate.getMonth())}
                             </div>
                           </div>
-                          <div
-                            key={index}
-                            className={
-                              "text-box " + item.color + " " + item.senderId
-                            }
-                          >
+                          <div key={index} className={"text-box " + item.color}>
                             <div className={`bar`}></div>
                             <div className="second">
                               <div className="dets">
@@ -417,8 +406,36 @@ export const GetStarted = () => {
                     }
                   }
                 }
+                const pastId = index !== 0 ? chat[index].senderId : null;
+                const diff = item.dateSent - chat[index - 1].dateSent;
+                // if (index > 0) {
+                //   if (pastId === item.senderId && diff <= 900000) {
+                //     console.log(diff, pastId, item.senderId);
+                //     return (
+                //       <div key={index} className={"text-box " + item.color}>
+                //         <div className={`bar`}></div>
+                //         <div className="second">
+                //           <div className="msg-content">{item.msg}</div>
+                //         </div>
+                //       </div>
+                //     );
+                //   } else {
+                //     console.log(diff, pastId, item.senderId);
+                //   }
+                // }
 
-                return toReturn;
+                return (
+                  <div key={index} className={"text-box " + item.color}>
+                    <div className={`bar`}></div>
+                    <div className="second">
+                      <div className="dets">
+                        <div className={"sender"}>{item.name}</div>
+                        <div className="time-box">{theTime}</div>
+                      </div>
+                      <div className="msg-content">{item.msg}</div>
+                    </div>
+                  </div>
+                );
               })
             ) : (
               <>
