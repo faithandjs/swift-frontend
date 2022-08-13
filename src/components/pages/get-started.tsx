@@ -43,6 +43,41 @@ export const GetStarted = () => {
       name: "debs_admin",
       senderId: "WtyB3Gix_bPfa9UbAAAH",
     },
+    {
+      color: "purple",
+      dateSent: 1660431061315,
+      msg: "so?",
+      name: "debs",
+      senderId: "IUpPrb5G661KWBUKAAAR",
+    },
+    {
+      color: "purple",
+      dateSent: 1660431119697,
+      msg: "ikdrxxxxxxxxxxxjkkjjjkkaxxxxxxxxxxxxkkkkkxddddddlaala",
+      name: "debs",
+      senderId: "IUpPrb5G661KWBUKAAAR",
+    },
+    {
+      color: "pink",
+      dateSent: 1660431395801,
+      msg: "can i?",
+      name: "joel",
+      senderId: "2B4CWEeyIQDudIkaAAAb",
+    },
+    {
+      color: "pink",
+      dateSent: 1660431706226,
+      msg: "sup",
+      name: "joel",
+      senderId: "2B4CWEeyIQDudIkaAAAb",
+    },
+    {
+      color: "pink",
+      dateSent: 1660431726734,
+      msg: "fr?",
+      name: "joel",
+      senderId: "2B4CWEeyIQDudIkaAAAb",
+    },
   ]);
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
   const myId = useRef("");
@@ -76,6 +111,7 @@ export const GetStarted = () => {
   socket.on("details", (id, chatHistory) => {
     myId.current = id;
     setChat(chatHistory);
+    console.log(chatHistory);
   });
   socket.on("in-chat", (users: string[]) => {
     setUsersAvailable(users);
@@ -182,25 +218,25 @@ export const GetStarted = () => {
                     errMsg.textContent = "Username should be 1-10 characters";
                     errMsg.style.opacity = "1";
                   } else {
-                    const transi = gsap.timeline();
-                    errMsg.style.opacity = "0";
-                    transi.to(".form form", {
-                      x: "-100vw",
-                      height: "0px",
-                      opacity: 0,
-                      duration: 0,
-                    });
-                    transi.to(
-                      ".form .next",
-                      {
-                        height: "max-content",
-                        x: 0,
-                        opacity: 1,
-                        duration: 0.2,
-                      },
-                      "<"
-                    );
                     socket.emit("username", name);
+
+                    const transi = gsap.timeline();
+                      errMsg.style.opacity = "0";
+                      transi.to(".form form", {
+                        x: "-100vw",
+                        height: "0px",
+                        opacity: 0,
+                        duration: 0,
+                      });
+                      transi.to(
+                        ".form .next",
+                        {
+                          height: "max-content",
+                          x: 0,
+                          opacity: 1,
+                          duration: 0.2,
+                        },
+                        "<")
                   }
                 } else {
                   errMsg.textContent = "Enter username";
@@ -399,31 +435,34 @@ export const GetStarted = () => {
                       </div>
                     </>
                   );
-                } else {
-                  if (pastDate.getMonth() < currentDate.getMonth()) {
-                    if (pastDate.getDate() < currentDate.getDate()) {
-                      return (
-                        <>
-                          <div className="date-box">
-                            <div>
-                              {currentDate.getDate() +
-                                " " +
-                                monthOfYear(currentDate.getMonth())}
-                            </div>
+                } else if (pastDate !== currentDate) {
+                  console.log();
+                  if (
+                    pastDate.getMonth() < currentDate.getMonth() ||
+                    pastDate.getMonth() < currentDate.getMonth() ||
+                    pastDate.getDate() != currentDate.getDate()
+                  ) {
+                    return (
+                      <>
+                        <div className="date-box">
+                          <div>
+                            {currentDate.getDate() +
+                              " " +
+                              monthOfYear(currentDate.getMonth())}
                           </div>
-                          <div key={index} className={"text-box " + item.color}>
-                            <div className={`bar`}></div>
-                            <div className="second">
-                              <div className="dets">
-                                <div className={"sender"}>{item.name}</div>
-                                <div className="time-box">{theTime}</div>
-                              </div>
-                              <div className="msg-content">{item.msg}</div>
+                        </div>
+                        <div key={index} className={"text-box " + item.color}>
+                          <div className={`bar`}></div>
+                          <div className="second">
+                            <div className="dets">
+                              <div className={"sender"}>{item.name}</div>
+                              <div className="time-box">{theTime}</div>
                             </div>
+                            <div className="msg-content">{item.msg}</div>
                           </div>
-                        </>
-                      );
-                    }
+                        </div>
+                      </>
+                    );
                   }
                 }
                 const pastId = index !== 0 ? chat[index].senderId : null;
