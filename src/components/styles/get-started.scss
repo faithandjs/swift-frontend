@@ -1,0 +1,189 @@
+@import "./color";
+
+.get-started {
+  padding: 30px 5vw 20px;
+
+  button {
+    background-color: $green;
+  }
+  .intro {
+    h1 {
+      padding-bottom: 5px;
+    }
+  }
+  .details {
+    display: flex;
+    justify-content: space-between;
+    // height: 420px;
+    .images {
+      order: 0;
+      background-color: #fff;
+      overflow-x: hidden;
+      width: 60%;
+      position: relative;
+      padding-top: 20px;
+      img {
+        // position: absolute;
+        // top: 50%;
+        // left: 40%;
+        &.one {
+          transform: translate(-100vw, -50%);
+        }
+        &.two {
+          // transform: translate(-50%, -50%);
+        }
+      }
+    }
+    .form {
+      order: 1;
+      position: relative;
+      width: 40%;
+      form.first-form {
+        // position: absolute;
+        // top: 50%;
+        // left: 50%;
+        // transform: translate(-50%, -50%);
+        width: max-content;
+        margin: auto;
+        display: flex;
+        border: 1px solid rgba(212, 212, 212, 0.479);
+        div.box {
+          position: relative;
+          input {
+            font-size: 0.95rem;
+            border: 0;
+            height: 38px;
+            padding: 2px 2px 2px 3px;
+            width: 200px;
+          }
+          div {
+            position: absolute;
+            opacity: 0;
+            color: red;
+            font-size: 0.7rem;
+          }
+        }
+        button {
+          font-size: 0.95rem;
+          height: 38px;
+          line-height: normal;
+          padding: 0;
+          svg {
+            height: 100%;
+            width: 40px;
+          }
+        }
+      }
+      .next {
+        position: relative;
+        h4 {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .second-form {
+          text-align: center;
+          .avatars {
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            grid-template-areas: "img img img" "img img img" "img img img";
+            label {
+              position: relative;
+              margin: 4px 5px;
+              width: clamp(40px, 90%, 90px);
+              padding: 5px;
+              &:hover {
+                cursor: pointer;
+              }
+              &::after {
+                content: "";
+                position: absolute;
+                background: transparent;
+                box-shadow: inset 1px 1px 3px transparent;
+                height: 100%;
+                width: 100%;
+                border-radius: 30px;
+                right: 0;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+              }
+              &.selected {
+                &::after {
+                  padding: 4px;
+                  box-shadow: inset 1px 1px 7px rgba(0, 0, 0, 0.247);
+                }
+              }
+              input {
+                position: absolute;
+                opacity: 0;
+                width: 50%;
+                height: 50%;
+              }
+
+              img {
+                width: 100%;
+              }
+            }
+          }
+
+          button.submit {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  }
+  .extra {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 25px 0 20px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .get-started {
+    overflow-x: hidden;
+    .details {
+      display: block;
+      // height: auto;
+      .images {
+        // overflow: hidden;
+        margin: auto;
+        display: flex;
+        padding: 50px 0 20px;
+        // height: 323px;
+
+        img {
+          margin-top: 10px;
+          // left: 50%;
+          &.one {
+            transform: translate(-100vw, 0);
+            top: 0;
+          }
+          &.two {
+            // transform: translate(-50%, -50%);
+            height: 313px;
+          }
+        }
+      }
+      .form {
+        width: 100%;
+        padding: 20px 0;
+        form {
+          margin: 10px 0;
+          position: static;
+          transform: translate(0);
+        }
+        .next {
+          .second-form {
+            .avatars {
+              max-width: 410px;
+              margin: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+}

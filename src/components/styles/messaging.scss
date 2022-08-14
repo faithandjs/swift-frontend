@@ -1,38 +1,6 @@
 @import "./color";
 @import url("https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap");
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  color: unset;
-  border: 0;
-  outline: 0;
-  color: $text-color;
-  border-radius: 0;
-}
-input {
-  font-size: 15px;
-  &::placeholder {
-    color: rgb(180, 180, 180);
-    font-size: 0.9rem;
-  }
-  &:-internal-autofill-selected {
-    background-color: unset !important;
-  }
-}
-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: #fff;
-  &:hover {
-    cursor: pointer;
-  }
-}
-ul {
-  list-style-type: none;
-}
 @keyframes arrow-up {
   0% {
     transform: rotate(250deg) translateX(2px);
@@ -55,18 +23,14 @@ ul {
     transform: rotate(70deg) translateX(1px);
   }
 }
+
 .messaging {
-  // background: url('../images/pattern.svg');
   header {
     padding: 30px 20px 10px 30px;
     background-color: $green;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // background: url("../images/magicpattern-blob-1660424805603.png");
-    // background-position: 101% 60%;
-    // background-repeat: no-repeat;
-    // background-size: 140px 100px;
     .img-box {
       padding-right: 10px;
       img {
@@ -146,8 +110,9 @@ ul {
         font-style: italic;
         position: sticky;
         top: 0;
-        div{color: $date_grey;}
-       
+        div {
+          color: $date_grey;
+        }
       }
       .text-box {
         min-height: 50px;
@@ -275,206 +240,7 @@ ul {
     }
   }
 }
-
-.get-started {
-  overflow-x: hidden;
-  padding: 30px 5vw 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #ffffff;
-  button {
-    background-color: $green;
-  }
-  .intro {
-    h1 {
-      padding-bottom: 5px;
-    }
-    p {
-    }
-  }
-  .details {
-    display: flex;
-    justify-content: space-between;
-    height: calc(100vh - 170px);
-    .images {
-      order: 0;
-      background-color: #fff;
-      overflow-x: hidden;
-      width: 60%;
-      position: relative;
-      img {
-        position: absolute;
-        top: 50%;
-        left: 40%;
-        &.one {
-          transform: translate(-100vw, -50%);
-        }
-        &.two {
-          transform: translate(-50%, -50%);
-        }
-      }
-    }
-    .form {
-      order: 1;
-      position: relative;
-      width: 40%;
-      form {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: max-content;
-        margin: auto;
-        display: flex;
-        border: 1px solid rgba(212, 212, 212, 0.479);
-        div.box {
-          position: relative;
-          input {
-            font-size: 0.95rem;
-            border: 0;
-            height: 38px;
-            padding: 2px 2px 2px 3px;
-            width: 200px;
-          }
-          div {
-            position: absolute;
-            opacity: 0;
-            color: red;
-            font-size: 0.7rem;
-          }
-        }
-        button {
-          font-size: 0.95rem;
-          height: 38px;
-          line-height: normal;
-          padding: 0;
-          svg {
-            height: 100%;
-            width: 40px;
-          }
-        }
-      }
-      .next {
-        height: 0px;
-        position: relative;
-        transform: translateX(100vw);
-        h4 {
-          text-align: center;
-          margin-bottom: 20px;
-        }
-        .avatars {
-          display: grid;
-          align-items: center;
-          justify-items: center;
-          grid-template-areas: "img img img" "img img img" "img img img";
-          button {
-            background-color: unset;
-            padding: 0;
-            margin: 15px;
-            width: clamp(40px, 90%, 90px);
-            position: relative;
-            img {
-              width: 100%;
-            }
-            &::after {
-              content: "";
-              position: absolute;
-              background: transparent;
-              box-shadow: inset 1px 1px 3px transparent;
-              height: 100%;
-              width: 100%;
-              border-radius: 30px;
-              right: 0;
-              bottom: 0;
-              left: 50%;
-              transform: translateX(-50%);
-            }
-          }
-          .selected {
-            &::after {
-              padding: 4px;
-              box-shadow: inset 1px 1px 7px rgba(0, 0, 0, 0.247);
-            }
-          }
-        }
-        button.submit {
-          position: absolute;
-          right: 5%;
-          margin-top: 20px;
-        }
-      }
-    }
-  }
-  .extra {
-    text-align: center;
-    font-size: 1.3rem;
-    margin: 15px 0;
-  }
-}
-
-@media screen and (max-width: 810px) {
-  .get-started {
-    overflow-x: hidden;
-    .details {
-      display: block;
-      height: auto;
-      .images {
-        overflow: hidden;
-        width: 100%;
-        padding: 50px 0 20px;
-        height: 323px;
-
-        img {
-          margin-top: 10px;
-          left: 50%;
-          &.one {
-            transform: translate(-100vw, 0);
-            top: 0;
-          }
-          &.two {
-            transform: translate(-50%, -50%);
-            height: 313px;
-          }
-        }
-      }
-      .form {
-        width: 100%;
-        padding: 20px 0;
-        form {
-          margin: 10px 0;
-          position: static;
-          transform: translate(0);
-        }
-        .next {
-          .avatar-box {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-          }
-          .avatars {
-            max-width: 410px;
-          }
-          button.submit {
-            position: relative;
-            left: 45vw;
-            transform: translateX(-50%);
-          }
-        }
-      }
-    }
-    .extra {
-    }
-  }
-}
 @media screen and (max-width: 414px) {
-  body {
-    font-size: 14px;
-  }
   .messaging {
     header {
       padding: 20px 10px 10px;
