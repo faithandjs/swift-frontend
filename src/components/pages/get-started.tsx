@@ -17,7 +17,8 @@ import send47 from "../images/icons8-email-send-48.png";
 import blob from "../images/magicpattern-blob-1660424805603.png";
 
 // const socket = io("https://git.heroku.com/sleepy-sea-90825.git");
-const socket = io("http://localhost:4000");
+// const socket = io("http://localhost:4000");
+const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 interface chatProps {
   name: string;
   msg: string;
@@ -219,24 +220,6 @@ export const GetStarted = () => {
                     errMsg.style.opacity = "1";
                   } else {
                     socket.emit("username", name);
-
-                    const transi = gsap.timeline();
-                      errMsg.style.opacity = "0";
-                      transi.to(".form form", {
-                        x: "-100vw",
-                        height: "0px",
-                        opacity: 0,
-                        duration: 0,
-                      });
-                      transi.to(
-                        ".form .next",
-                        {
-                          height: "max-content",
-                          x: 0,
-                          opacity: 1,
-                          duration: 0.2,
-                        },
-                        "<")
                   }
                 } else {
                   errMsg.textContent = "Enter username";
@@ -440,7 +423,7 @@ export const GetStarted = () => {
                   if (
                     pastDate.getMonth() < currentDate.getMonth() ||
                     pastDate.getMonth() < currentDate.getMonth() ||
-                    pastDate.getDate() != currentDate.getDate()
+                    pastDate.getDate() !== currentDate.getDate()
                   ) {
                     return (
                       <>
