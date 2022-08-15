@@ -7,6 +7,8 @@ import send47 from "../images/icons8-email-send-48.png";
 import { useSelector, useDispatch } from "react-redux";
 import { monthOfYear, time } from "../components/functions";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
+import loading from "../images/icons8-loading-24.png";
+
 // const socket = io("http://localhost:4000");
 const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 
@@ -14,7 +16,6 @@ const Messaging = () => {
   const dispatch = useDispatch();
   const details = useSelector(detailsSliceDets);
   const { username, email, avatar, password, id } = details;
-  console.log(details);
   const [chat, setChat] = useState<chatProps[]>([]);
   const [msg, setMsg] = useState("");
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
@@ -34,29 +35,9 @@ const Messaging = () => {
       );
     }
   });
-  socket.on(
-    "message",
-    (
-      name: string,
-      msg: string,
-      color: string,
-      senderId: string,
-      dateSent: number
-    ) => {
-      let sender = name;
-      if (name === username) {
-        sender = "me";
-        color = "red";
-      }
-
-      let temp: chatProps = { name: sender, msg, color, senderId, dateSent };
-      if (chat.includes(temp)) {
-        console.log("includes");
-      } else {
-        setChat([...chat, temp]);
-      }
-    }
-  );
+  socket.on("message", (chatHistory) => {
+    setChat(chatHistory);
+  });
   useEffect(() => {
     socket.emit("get-details", id);
   }, []);
@@ -105,18 +86,26 @@ const Messaging = () => {
           <div className="msg-area">
             {chat.length > 0 ? (
               chat.map((item, index) => {
+                const local = item.senderId.length === 1 ? true : false;
                 const pastDate = new Date(
                   index === 0 ? chat[index].dateSent : chat[index - 1].dateSent
                 );
                 const currentDate = new Date(item.dateSent);
-                const theTime = (
+                const theTime = local ? (
+                  <img src={loading} alt="loading icon" />
+                ) : (
                   <div className="time">
                     {time(currentDate.getHours()) +
                       " : " +
                       time(currentDate.getMinutes())}
                   </div>
                 );
-
+                let names = item.name;
+                let colors = item.color;
+                if (item.name === username) {
+                  names = "me";
+                  colors = " red";
+                }
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0
@@ -132,11 +121,11 @@ const Messaging = () => {
                             currentDate.getFullYear()}
                         </div>
                       </div>
-                      <div key={index} className={"text-box " + item.color}>
+                      <div key={index} className={"text-box " + colors}>
                         <div className={`bar`}></div>
                         <div className="second">
                           <div className="dets">
-                            <div className={"sender"}>{item.name}</div>
+                            <div className={"sender"}>{names}</div>
                             <div className="time-box">{theTime}</div>
                           </div>
                           <div className="msg-content">{item.msg}</div>
@@ -145,7 +134,6 @@ const Messaging = () => {
                     </>
                   );
                 } else if (pastDate !== currentDate) {
-                  console.log();
                   if (
                     pastDate.getMonth() < currentDate.getMonth() ||
                     pastDate.getMonth() < currentDate.getMonth() ||
@@ -160,11 +148,11 @@ const Messaging = () => {
                               monthOfYear(currentDate.getMonth())}
                           </div>
                         </div>
-                        <div key={index} className={"text-box " + item.color}>
+                        <div key={index} className={"text-box " + colors}>
                           <div className={`bar`}></div>
                           <div className="second">
                             <div className="dets">
-                              <div className={"sender"}>{item.name}</div>
+                              <div className={"sender"}>{names}</div>
                               <div className="time-box">{theTime}</div>
                             </div>
                             <div className="msg-content">{item.msg}</div>
@@ -174,30 +162,12 @@ const Messaging = () => {
                     );
                   }
                 }
-                const pastId = index !== 0 ? chat[index].senderId : null;
-                const diff = item.dateSent - chat[index - 1].dateSent;
-                // if (index > 0) {
-                //   if (pastId === item.senderId && diff <= 900000) {
-                //     console.log(diff, pastId, item.senderId);
-                //     return (
-                //       <div key={index} className={"text-box " + item.color}>
-                //         <div className={`bar`}></div>
-                //         <div className="second">
-                //           <div className="msg-content">{item.msg}</div>
-                //         </div>
-                //       </div>
-                //     );
-                //   } else {
-                //     console.log(diff, pastId, item.senderId);
-                //   }
-                // }
-
                 return (
-                  <div key={index} className={"text-box " + item.color}>
+                  <div key={index} className={"text-box " + colors}>
                     <div className={`bar`}></div>
                     <div className="second">
                       <div className="dets">
-                        <div className={"sender"}>{item.name}</div>
+                        <div className={"sender"}>{names}</div>
                         <div className="time-box">{theTime}</div>
                       </div>
                       <div className="msg-content">{item.msg}</div>
@@ -227,6 +197,13 @@ const Messaging = () => {
             onSubmit={(e) => {
               e.preventDefault();
               if (msg.trim() !== "") {
+                chat.push({
+                  name: "me",
+                  msg,
+                  color: "red",
+                  senderId: "0",
+                  dateSent: Date.now(),
+                });
                 socket.emit("msgSent", username, msg, Date.now());
                 setMsg("");
               }

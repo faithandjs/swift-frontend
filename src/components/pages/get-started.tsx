@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "../styles/get-started.scss";
 import io from "socket.io-client";
 import img from "../images/The Little Things - UI Design.png";
+import loadimg from "../images/icons8-loading-50.png";
 import { gsap } from "gsap";
 import ava1 from "../images/images/avataaars (1).png";
 import ava2 from "../images/images/avataaars (2).png";
@@ -26,11 +27,11 @@ export const GetStarted = () => {
   const [avatar, setAvatar] = useState("");
   const [serverRes, setSR] = useState(false);
   const [myId, setID] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   socket.on("response", (id, res) => {
     const errMsg: HTMLDivElement = document.querySelector(
       ".details .form form div div"
     )!;
-    const transi = gsap.timeline();
     if (res && name.length > 0) {
       dispatch(
         setDetails({
@@ -39,24 +40,8 @@ export const GetStarted = () => {
         })
       );
       setSR(true);
-      // errMsg.style.opacity = "0";
-      // transi.to(".form form.first-form", {
-      //   x: "-100vw",
-      //   height: "0px",
-      //   opacity: 0,
-      //   duration: 0,
-      // });
-      // transi.to(
-      //   ".form .next",
-      //   {
-      //     height: "max-content",
-      //     x: 0,
-      //     opacity: 1,
-      //     duration: 0.2,
-      //   },
-      //   "<"
-      // );
     } else if (!res && name.length > 0) {
+      setLoading(false)
       errMsg.textContent = "Username not available";
       errMsg.style.opacity = "1";
     }
@@ -100,6 +85,7 @@ export const GetStarted = () => {
                     errMsg.textContent = "Username should be 1-20 characters";
                     errMsg.style.opacity = "1";
                   } else {
+                    setLoading(true);
                     socket.emit("username", name);
                     dispatch(
                       setDetails({
@@ -120,6 +106,7 @@ export const GetStarted = () => {
                   placeholder="Enter username"
                   name="username"
                   id="username"
+                  disabled={loading}
                   onChange={(e) => {
                     setName(e.target.value);
                     const errMsg: HTMLDivElement = document.querySelector(
@@ -128,9 +115,14 @@ export const GetStarted = () => {
                     errMsg.style.opacity = "0";
                   }}
                 />
+                <img
+                  src={loadimg}
+                  alt="loading image"
+                  style={{ display: loading ? "block" : "none" }}
+                />
                 <div></div>
               </div>
-              <button type="submit">
+              <button disabled={loading} type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
                     fill="#fff"

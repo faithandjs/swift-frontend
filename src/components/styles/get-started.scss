@@ -1,5 +1,13 @@
 @import "./color";
 
+@keyframes rotate {
+  0% {
+    transform: translateY(-50%) rotate(50deg);
+  }
+  100% {
+    transform: translateY(-50%) rotate(359deg);
+  }
+}
 .get-started {
   padding: 30px 5vw 20px;
 
@@ -55,6 +63,14 @@
             height: 38px;
             padding: 2px 2px 2px 3px;
             width: 200px;
+          }
+          img {
+            position: absolute;
+            width: 22px;
+            top: 50%;
+            left: 172px;
+            transform: translateY(-50%);
+            animation: rotate 1s infinite linear ;
           }
           div {
             position: absolute;

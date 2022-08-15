@@ -1,8 +1,8 @@
 $text-color: #4d4343;
 $green: #62b89e;
-$date_grey: rgb(167, 166, 166);
+$date_grey: #a7a6a6;
 
-$blue: #8080dd;//bg
+$blue: #8080dd; //bg
 $btn_blue: rgb(24, 214, 251);
 $lighter_green: #9ce78d;
 $light_orange: #fba968;
@@ -14,7 +14,7 @@ $teal: #0e9797;
 $red: #f80404;
 $orange: #ff7b00; //
 $pastel_blue: #4682b4;
-$purple:  #c672c2;
+$purple: #c672c2;
 $deep_blue: rgb(17, 0, 255);
 $bar_green: #00ffb3;
 
@@ -29,7 +29,7 @@ $bar_green: #00ffb3;
 }
 .red {
   .bar {
-    background-color:$red ;
+    background-color: $red;
   }
   .sender {
     color: $red;
@@ -61,7 +61,7 @@ $bar_green: #00ffb3;
 }
 .purple {
   .bar {
-    background-color:$purple;
+    background-color: $purple;
   }
   .sender {
     color: $purple;
@@ -69,7 +69,7 @@ $bar_green: #00ffb3;
 }
 .deep-blue {
   .bar {
-    background-color:$deep_blue;
+    background-color: $deep_blue;
   }
   .sender {
     color: $deep_blue;
@@ -81,5 +81,13 @@ $bar_green: #00ffb3;
   }
   .sender {
     color: $pink;
+  }
+}
+.black {
+  .bar {
+    background-color: #000;
+  }
+  .sender {
+    color: 000;
   }
 }

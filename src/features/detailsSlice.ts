@@ -13,7 +13,6 @@ export const DetailsSlice = createSlice({
   reducers: {
     setDetails: (state, action) => {
       const { type, det } = action.payload;
-      console.log(type, det);
       if (type === payloadType.AVATAR) state.avatar = det;
       if (type === payloadType.EMAIL) state.email = det;
       if (type === payloadType.PASSWORD) state.password = det;
