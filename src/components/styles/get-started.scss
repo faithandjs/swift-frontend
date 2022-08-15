@@ -39,10 +39,10 @@
       position: relative;
       width: 40%;
       form.first-form {
-        // position: absolute;
-        // top: 50%;
-        // left: 50%;
-        // transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: max-content;
         margin: auto;
         display: flex;
@@ -148,15 +148,13 @@
       display: block;
       // height: auto;
       .images {
-        // overflow: hidden;
-        margin: auto;
-        display: flex;
         padding: 50px 0 20px;
-        // height: 323px;
+        width: 100%;
 
         img {
+          margin: auto;
+          display: flex;
           margin-top: 10px;
-          // left: 50%;
           &.one {
             transform: translate(-100vw, 0);
             top: 0;
@@ -170,7 +168,7 @@
       .form {
         width: 100%;
         padding: 20px 0;
-        form {
+        form.first-form {
           margin: 10px 0;
           position: static;
           transform: translate(0);
@@ -179,9 +177,10 @@
           .second-form {
             .avatars {
               max-width: 410px;
-              margin: auto;
+              margin: 10px auto;
             }
           }
+          margin: 10px auto 30px;
         }
       }
     }

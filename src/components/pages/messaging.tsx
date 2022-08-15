@@ -1,24 +1,38 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/messaging.scss";
-import { messagingProps, chatProps } from "../../type";
+import { chatProps, payloadType } from "../../type";
 import io from "socket.io-client";
 import arrow64 from "../images/icons8-arrow-64.png";
 import send47 from "../images/icons8-email-send-48.png";
+import { useSelector, useDispatch } from "react-redux";
+import { monthOfYear, time } from "../components/functions";
+import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
+// const socket = io("http://localhost:4000");
+const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 
-const socket = io("http://localhost:4000");
-
-const Messaging = ({ avatar, name, id }: messagingProps) => {
+const Messaging = () => {
+  const dispatch = useDispatch();
+  const details = useSelector(detailsSliceDets);
+  const { username, email, avatar, password, id } = details;
+  console.log(details);
   const [chat, setChat] = useState<chatProps[]>([]);
   const [msg, setMsg] = useState("");
-  const myId = useRef(id);
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
   const [list, setList] = useState<"none" | "block">("none");
 
   socket.on("in-chat", (users: string[]) => {
     setUsersAvailable(users);
   });
-  socket.on("details", (chatHistory) => {
-    setChat(chatHistory);
+  socket.on("details", (newId, oldId, chatHistory) => {
+    if (id === oldId) {
+      setChat(chatHistory);
+      dispatch(
+        setDetails({
+          type: payloadType.ID,
+          det: newId,
+        })
+      );
+    }
   });
   socket.on(
     "message",
@@ -30,7 +44,7 @@ const Messaging = ({ avatar, name, id }: messagingProps) => {
       dateSent: number
     ) => {
       let sender = name;
-      if (senderId === myId.current) {
+      if (name === username) {
         sender = "me";
         color = "red";
       }
@@ -46,40 +60,6 @@ const Messaging = ({ avatar, name, id }: messagingProps) => {
   useEffect(() => {
     socket.emit("get-details", id);
   }, []);
-  const monthOfYear = (num: number) => {
-    switch (num + 1) {
-      case 1:
-        return "January";
-      case 2:
-        return "Febuary";
-      case 3:
-        return "March";
-      case 4:
-        return "April";
-      case 5:
-        return "May";
-      case 6:
-        return "June";
-      case 7:
-        return "July";
-      case 8:
-        return "August";
-      case 9:
-        return "September";
-      case 10:
-        return "October";
-      case 11:
-        return "November";
-      case 12:
-        return "December";
-      default:
-        return "This Month";
-    }
-  };
-  const time = (num: number) => {
-    if (num.toLocaleString().length === 1) return "0" + 1;
-    return num;
-  };
   return (
     <>
       <div className="messaging">
@@ -97,7 +77,7 @@ const Messaging = ({ avatar, name, id }: messagingProps) => {
                 list === "block" ? setList("none") : setList("block")
               }
             >
-              <p>{name}</p>
+              <p>{username}</p>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -247,7 +227,7 @@ const Messaging = ({ avatar, name, id }: messagingProps) => {
             onSubmit={(e) => {
               e.preventDefault();
               if (msg.trim() !== "") {
-                socket.emit("msgSent", name, msg, myId.current, Date.now());
+                socket.emit("msgSent", username, msg, Date.now());
                 setMsg("");
               }
             }}
