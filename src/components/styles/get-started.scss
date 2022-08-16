@@ -181,6 +181,10 @@
           }
         }
       }
+      .remove{
+        display: none;
+        transition: display 1s;
+      }
       .form {
         width: 100%;
         padding: 20px 0;

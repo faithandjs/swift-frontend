@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/messaging.scss";
 import { chatProps, payloadType } from "../../type";
 import io from "socket.io-client";
@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { monthOfYear, time } from "../components/functions";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
 import loading from "../images/icons8-loading-24.png";
+import { useNavigate } from "react-router-dom";
 
 // const socket = io("http://localhost:4000");
 const socket = io("https://sleepy-sea-90825.herokuapp.com/");
@@ -27,7 +28,8 @@ const Messaging = () => {
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
   const [oldLength, setOldL] = useState(0);
   const [list, setList] = useState<"none" | "block">("none");
-
+  const navigate = useNavigate();
+  const newMsgRef = useRef<HTMLInputElement>(null);
   socket.on("in-chat", (available: string[], users) => {
     setUsersAvailable(available);
     setUsers(users);
@@ -46,12 +48,23 @@ const Messaging = () => {
   socket.on("message", (chatHistory) => {
     setChat(chatHistory);
   });
+  socket.on("reset", () => {
+    navigate("/", { replace: true });
+  });
   useEffect(() => {
     socket.emit("get-details", id);
   }, []);
+  useEffect(() => {
+    avatar.length < 1 && navigate("/", { replace: true });
+  });
+  useEffect(() => {
+    setOldL(chat.length);
+  }, [document.querySelector(".msg-area")?.children.length]);
+
   // useEffect(() => {
-  //   document.querySelector(".new")!.focus();
-  // }, [chat]);
+  //   newMsgRef.current?.focus();
+  //   console.log(oldLength, document.activeElement, newMsgRef.current);
+  // }, [oldLength]);
   const seeUsers = (a_user: string) => {
     let image = "";
     users.map((item) => {
@@ -127,12 +140,7 @@ const Messaging = () => {
                   colors = "red";
                 }
                 const classname =
-                  "text-box " + colors + (index === oldLength ? "new" : " ");
-                console.log(
-                  index === oldLength ? "new" : " ",
-                  oldLength,
-                  index
-                );
+                  "text-box " + colors + (index === oldLength ? " new" : " ");
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0

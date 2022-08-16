@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import "../styles/get-started.scss";
 import io from "socket.io-client";
 import img from "../images/The Little Things - UI Design.png";
@@ -24,9 +24,16 @@ export const GetStarted = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState(
+    "/static/media/avataaars (9).0833d0764e0d05e50cdb.png"
+  );
   const [serverRes, setSR] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [test, setTest] = useState<boolean>(false);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const avatarRef = useRef<HTMLInputElement>(null);
+  const imagesRef = useRef<HTMLDivElement>(null);
+
   socket.on("response", (id, res) => {
     const errMsg: HTMLDivElement = document.querySelector(
       ".details .form form div div"
@@ -63,7 +70,14 @@ export const GetStarted = () => {
     });
     setAvatar(ava);
   };
-
+  useEffect(() => {
+    !serverRes && usernameRef.current?.focus();
+    serverRes && avatarRef.current?.focus();
+    serverRes && imagesRef.current?.setAttribute("class", "images remove");
+  }, [serverRes]);
+  useEffect(() => {
+    // serverRes && console.log(document.activeElement);
+  });
   return (
     <div className="get-started">
       <div className="intro">
@@ -102,6 +116,7 @@ export const GetStarted = () => {
             >
               <div className="box">
                 <input
+                  ref={usernameRef}
                   type="text"
                   placeholder="Enter username"
                   name="username"
@@ -156,10 +171,15 @@ export const GetStarted = () => {
                 <div className="avatars">
                   <label
                     htmlFor="avatar-1"
-                    className="label1"
+                    className="label1 selected"
                     onClick={() => settingAvatar(ava9, 1)}
                   >
-                    <input type="radio" name="avatar" id="avatar-1" />
+                    <input
+                      type="radio"
+                      name="avatar"
+                      id="avatar-1"
+                      ref={avatarRef}
+                    />
                     <img src={ava9} alt="" />
                   </label>
                   <label
@@ -237,7 +257,7 @@ export const GetStarted = () => {
             </div>
           )}
         </div>
-        <div className="images">
+        <div className="images" ref={imagesRef}>
           <img src={img} alt="" className="two" />
         </div>
       </div>
