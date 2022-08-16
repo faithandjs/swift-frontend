@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
 import { payloadType } from "../../type";
-const socket = io("http://localhost:4000");
-// const socket = io("https://sleepy-sea-90825.herokuapp.com/");
+// const socket = io("http://localhost:4000");
+const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 
 export const GetStarted = () => {
   const dispatch = useDispatch();

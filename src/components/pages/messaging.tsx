@@ -9,8 +9,8 @@ import { monthOfYear, time } from "../components/functions";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
 import loading from "../images/icons8-loading-24.png";
 
-const socket = io("http://localhost:4000");
-// const socket = io("https://sleepy-sea-90825.herokuapp.com/");
+// const socket = io("http://localhost:4000");
+const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 interface usersProps {
   name: string;
   color: string;
@@ -128,7 +128,11 @@ const Messaging = () => {
                 }
                 const classname =
                   "text-box " + colors + (index === oldLength ? "new" : " ");
-console.log(index === oldLength ? "new" : " ", oldLength, index)
+                console.log(
+                  index === oldLength ? "new" : " ",
+                  oldLength,
+                  index
+                );
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0
