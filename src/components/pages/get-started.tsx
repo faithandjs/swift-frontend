@@ -17,8 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
 import { payloadType } from "../../type";
-// const socket = io("http://localhost:4000");
-const socket = io("https://sleepy-sea-90825.herokuapp.com/");
+const socket = io("http://localhost:4000");
+// const socket = io("https://sleepy-sea-90825.herokuapp.com/");
 
 export const GetStarted = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,6 @@ export const GetStarted = () => {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [serverRes, setSR] = useState(false);
-  const [myId, setID] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   socket.on("response", (id, res) => {
     const errMsg: HTMLDivElement = document.querySelector(
@@ -41,11 +40,12 @@ export const GetStarted = () => {
       );
       setSR(true);
     } else if (!res && name.length > 0) {
-      setLoading(false)
+      setLoading(false);
       errMsg.textContent = "Username not available";
       errMsg.style.opacity = "1";
     }
   });
+
   const settingAvatar = (ava: string, classNO: number) => {
     document.querySelectorAll(".avatars label").forEach((item) => {
       if (
@@ -142,6 +142,7 @@ export const GetStarted = () => {
                   e.preventDefault();
 
                   if (avatar.length > 0) {
+                    socket.emit("register", name, avatar);
                     dispatch(
                       setDetails({
                         type: payloadType.AVATAR,

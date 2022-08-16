@@ -4,6 +4,7 @@ export interface chatProps {
   color: string;
   senderId: string;
   dateSent: number;
+  avatar: string;
 }
 export interface contextProp {
   children: JSX.Element;

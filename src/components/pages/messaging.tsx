@@ -9,20 +9,28 @@ import { monthOfYear, time } from "../components/functions";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
 import loading from "../images/icons8-loading-24.png";
 
-// const socket = io("http://localhost:4000");
-const socket = io("https://sleepy-sea-90825.herokuapp.com/");
-
+const socket = io("http://localhost:4000");
+// const socket = io("https://sleepy-sea-90825.herokuapp.com/");
+interface usersProps {
+  name: string;
+  color: string;
+  avatar: string;
+  id: string;
+}
 const Messaging = () => {
   const dispatch = useDispatch();
   const details = useSelector(detailsSliceDets);
   const { username, email, avatar, password, id } = details;
   const [chat, setChat] = useState<chatProps[]>([]);
   const [msg, setMsg] = useState("");
+  const [users, setUsers] = useState<usersProps[]>([]);
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
+  const [oldLength, setOldL] = useState(0);
   const [list, setList] = useState<"none" | "block">("none");
 
-  socket.on("in-chat", (users: string[]) => {
-    setUsersAvailable(users);
+  socket.on("in-chat", (available: string[], users) => {
+    setUsersAvailable(available);
+    setUsers(users);
   });
   socket.on("details", (newId, oldId, chatHistory) => {
     if (id === oldId) {
@@ -41,6 +49,18 @@ const Messaging = () => {
   useEffect(() => {
     socket.emit("get-details", id);
   }, []);
+  // useEffect(() => {
+  //   document.querySelector(".new")!.focus();
+  // }, [chat]);
+  const seeUsers = (a_user: string) => {
+    let image = "";
+    users.map((item) => {
+      if (item.name === a_user) image = item.avatar;
+    });
+    const userChat = chat.filter((item) => item.name === a_user);
+
+    console.log(a_user, userChat);
+  };
   return (
     <>
       <div className="messaging">
@@ -71,7 +91,7 @@ const Messaging = () => {
             <ul className="others" style={{ display: list }}>
               <li>Users</li>
               {usersAvailable.map((item, index) => (
-                <li key={index}>
+                <li key={index} onClick={() => seeUsers(item)}>
                   <span>{item}</span>
                   <span></span>
                 </li>
@@ -104,8 +124,11 @@ const Messaging = () => {
                 let colors = item.color;
                 if (item.name === username) {
                   names = "me";
-                  colors = " red";
+                  colors = "red";
                 }
+                const classname =
+                  "text-box " + colors + (index === oldLength ? "new" : " ");
+console.log(index === oldLength ? "new" : " ", oldLength, index)
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0
@@ -121,7 +144,7 @@ const Messaging = () => {
                             currentDate.getFullYear()}
                         </div>
                       </div>
-                      <div key={index} className={"text-box " + colors}>
+                      <div key={index} className={classname}>
                         <div className={`bar`}></div>
                         <div className="second">
                           <div className="dets">
@@ -148,7 +171,7 @@ const Messaging = () => {
                               monthOfYear(currentDate.getMonth())}
                           </div>
                         </div>
-                        <div key={index} className={"text-box " + colors}>
+                        <div key={index} className={classname}>
                           <div className={`bar`}></div>
                           <div className="second">
                             <div className="dets">
@@ -163,7 +186,7 @@ const Messaging = () => {
                   }
                 }
                 return (
-                  <div key={index} className={"text-box " + colors}>
+                  <div key={index} className={classname}>
                     <div className={`bar`}></div>
                     <div className="second">
                       <div className="dets">
@@ -203,8 +226,9 @@ const Messaging = () => {
                   color: "red",
                   senderId: "0",
                   dateSent: Date.now(),
+                  avatar,
                 });
-                socket.emit("msgSent", username, msg, Date.now());
+                socket.emit("msgSent", username, msg, Date.now(), avatar);
                 setMsg("");
               }
             }}
