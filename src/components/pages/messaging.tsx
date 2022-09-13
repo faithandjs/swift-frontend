@@ -28,6 +28,7 @@ const Messaging = () => {
   const [usersAvailable, setUsersAvailable] = useState<string[]>([]);
   const [oldLength, setOldL] = useState(0);
   const [list, setList] = useState<"none" | "block">("none");
+  const [selected, setSelected] = useState("");
   const navigate = useNavigate();
   const newMsgRef = useRef<HTMLInputElement>(null);
   socket.on("in-chat", (available: string[], users) => {
@@ -48,10 +49,12 @@ const Messaging = () => {
   socket.on("message", (chatHistory) => {
     setChat(chatHistory);
   });
+
   socket.on("reset", () => {
     navigate("/", { replace: true });
   });
   useEffect(() => {
+    console.log(username);
     socket.emit("get-details", id);
   }, []);
   useEffect(() => {
@@ -71,7 +74,7 @@ const Messaging = () => {
       if (item.name === a_user) image = item.avatar;
     });
     const userChat = chat.filter((item) => item.name === a_user);
-
+    setSelected(a_user);
     console.log(a_user, userChat);
   };
   return (
@@ -79,7 +82,10 @@ const Messaging = () => {
       <div className="messaging">
         <header
           className="header"
-          onClick={() => (list === "block" ? setList("none") : null)}
+          onClick={() => {
+            list === "block" && setList("none");
+            selected.length > 0 && setSelected("");
+          }}
         >
           <div className="img-box">
             <img src={avatar} alt="" />
@@ -104,7 +110,7 @@ const Messaging = () => {
             <ul className="others" style={{ display: list }}>
               <li>Users</li>
               {usersAvailable.map((item, index) => (
-                <li key={index} onClick={() => seeUsers(item)}>
+                <li key={index} onClick={() => seeUsers(item.toLowerCase())}>
                   <span>{item}</span>
                   <span></span>
                 </li>
@@ -140,7 +146,10 @@ const Messaging = () => {
                   colors = "red";
                 }
                 const classname =
-                  "text-box " + colors + (index === oldLength ? " new" : " ");
+                  "text-box " +
+                  colors +
+                  (index === oldLength ? " new" : " ") +
+                  (selected === item.name.toLowerCase() ? "selected" : "");
                 if (
                   pastDate.getFullYear() < currentDate.getFullYear() ||
                   index === 0
@@ -243,6 +252,9 @@ const Messaging = () => {
                 socket.emit("msgSent", username, msg, Date.now(), avatar);
                 setMsg("");
               }
+            }}
+            onClick={() => {
+              selected.length > 0 && setSelected("");
             }}
           >
             <input
