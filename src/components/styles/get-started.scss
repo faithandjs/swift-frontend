@@ -12,7 +12,9 @@
   padding: 30px 5vw 20px;
 
   button {
-    background-color: $green;
+    background-color: $cool_blue;
+
+    // background-color: $green;
   }
   .intro {
     h1 {
@@ -70,7 +72,7 @@
             top: 50%;
             left: 172px;
             transform: translateY(-50%);
-            animation: rotate 1s infinite linear ;
+            animation: rotate 1s infinite linear;
           }
           div {
             position: absolute;
@@ -118,7 +120,7 @@
                 box-shadow: inset 1px 1px 3px transparent;
                 height: 100%;
                 width: 100%;
-                border-radius: 30px;
+                border-radius: 3px;
                 right: 0;
                 bottom: 0;
                 left: 50%;
@@ -142,9 +144,24 @@
               }
             }
           }
-
-          button.submit {
+          .btns {
+            display: flex;
+            justify-content: space-between;
             margin-top: 20px;
+            button {border-radius: 3px;
+              padding: 5px 20px;
+            }
+            button.btn {
+              img {
+                position: relative;
+                top: 10%;
+                height: 25px;
+              }
+            }
+            button.submit {
+              background-color: $main_orange;
+              font-size: .95rem;
+            }
           }
         }
       }
@@ -181,7 +198,7 @@
           }
         }
       }
-      .remove{
+      .remove {
         display: none;
         transition: display 1s;
       }
@@ -198,6 +215,9 @@
             .avatars {
               max-width: 410px;
               margin: 10px auto;
+            }
+            .btns {
+              justify-content: space-evenly;
             }
           }
           margin: 10px auto 30px;

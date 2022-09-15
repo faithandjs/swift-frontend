@@ -13,6 +13,7 @@ import ava6 from "../images/images/avataaars (6).png";
 import ava7 from "../images/images/avataaars (7).png";
 import ava8 from "../images/images/avataaars (8).png";
 import ava9 from "../images/images/avataaars (9).png";
+import back from "../images/icons8-left-arrow-50.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setDetails, detailsSliceDets } from "../../features/detailsSlice";
@@ -46,6 +47,7 @@ export const GetStarted = () => {
         })
       );
       setSR(true);
+      setLoading(false);
     } else if (!res && name.length > 0) {
       setLoading(false);
       errMsg.textContent = "Username not available";
@@ -77,6 +79,7 @@ export const GetStarted = () => {
   }, [serverRes]);
   useEffect(() => {
     // serverRes && console.log(document.activeElement);
+    console.log(name);
   });
   return (
     <div className="get-started">
@@ -122,6 +125,7 @@ export const GetStarted = () => {
                   name="username"
                   id="username"
                   disabled={loading}
+                  value={name}
                   onChange={(e) => {
                     setName(e.target.value);
                     const errMsg: HTMLDivElement = document.querySelector(
@@ -247,12 +251,24 @@ export const GetStarted = () => {
                     <img src={ava7} alt="" />
                   </label>
                 </div>
-                <button
-                  className="submit"
-                  disabled={avatar.length === 0 ? true : false}
-                >
-                  Submit
-                </button>{" "}
+                <div className="btns">
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      setSR(false);
+                    }}
+                  >
+                    <img src={back} alt="" />
+                  </button>
+                  <button
+                    type="submit"
+                    className="submit"
+                    disabled={avatar.length === 0 ? true : false}
+                  >
+                    Submit
+                  </button>
+                </div>
               </form>
             </div>
           )}

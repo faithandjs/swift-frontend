@@ -81,7 +81,7 @@ const Messaging = () => {
     <>
       <div className="messaging">
         <header
-          className="header"
+          className="header "
           onClick={() => {
             list === "block" && setList("none");
             selected.length > 0 && setSelected("");
@@ -92,7 +92,7 @@ const Messaging = () => {
           </div>
           <div className="users">
             <button
-              className="me"
+              className="me "
               onClick={() =>
                 list === "block" ? setList("none") : setList("block")
               }
@@ -107,6 +107,7 @@ const Messaging = () => {
                 </svg>
               </div>
             </button>
+
             <ul className="others" style={{ display: list }}>
               <li>Users</li>
               {usersAvailable.map((item, index) => (
@@ -118,70 +119,44 @@ const Messaging = () => {
             </ul>
           </div>
         </header>
-        <div
-          className="msg-box"
-          onClick={() => (list === "block" ? setList("none") : "")}
-        >
-          <div className="msg-area">
-            {chat.length > 0 ? (
-              chat.map((item, index) => {
-                const local = item.senderId.length === 1 ? true : false;
-                const pastDate = new Date(
-                  index === 0 ? chat[index].dateSent : chat[index - 1].dateSent
-                );
-                const currentDate = new Date(item.dateSent);
-                const theTime = local ? (
-                  <img src={loading} alt="loading icon" />
-                ) : (
-                  <div className="time">
-                    {time(currentDate.getHours()) +
-                      " : " +
-                      time(currentDate.getMinutes())}
-                  </div>
-                );
-                let names = item.name;
-                let colors = item.color;
-                if (item.name === username) {
-                  names = "me";
-                  colors = "red";
-                }
-                const classname =
-                  "text-box " +
-                  colors +
-                  (index === oldLength ? " new" : " ") +
-                  (selected === item.name.toLowerCase() ? "selected" : "");
-                if (
-                  pastDate.getFullYear() < currentDate.getFullYear() ||
-                  index === 0
-                ) {
-                  return (
-                    <>
-                      <div className="date-box">
-                        <div>
-                          {currentDate.getDate() +
-                            " " +
-                            monthOfYear(currentDate.getMonth()) +
-                            ", " +
-                            currentDate.getFullYear()}
-                        </div>
-                      </div>
-                      <div key={index} className={classname}>
-                        <div className={`bar`}></div>
-                        <div className="second">
-                          <div className="dets">
-                            <div className={"sender"}>{names}</div>
-                            <div className="time-box">{theTime}</div>
-                          </div>
-                          <div className="msg-content">{item.msg}</div>
-                        </div>
-                      </div>
-                    </>
+        <main>
+          <section
+            className="msg-box"
+            onClick={() => (list === "block" ? setList("none") : "")}
+          >
+            <div className="msg-area">
+              {chat.length > 0 ? (
+                chat.map((item, index) => {
+                  const local = item.senderId.length === 1 ? true : false;
+                  const pastDate = new Date(
+                    index === 0
+                      ? chat[index].dateSent
+                      : chat[index - 1].dateSent
                   );
-                } else if (pastDate !== currentDate) {
+                  const currentDate = new Date(item.dateSent);
+                  const theTime = local ? (
+                    <img src={loading} alt="loading icon" />
+                  ) : (
+                    <div className="time">
+                      {time(currentDate.getHours()) +
+                        " : " +
+                        time(currentDate.getMinutes())}
+                    </div>
+                  );
+                  let names = item.name;
+                  let colors = item.color;
+                  if (item.name === username) {
+                    names = "me";
+                    colors = "red";
+                  }
+                  const classname =
+                    "text-box " +
+                    colors +
+                    (index === oldLength ? " new" : " ") +
+                    (selected === item.name.toLowerCase() ? "selected" : "");
                   if (
-                    pastDate.getMonth() < currentDate.getMonth() ||
-                    pastDate.getMonth() < currentDate.getMonth() ||
-                    pastDate.getDate() !== currentDate.getDate()
+                    pastDate.getFullYear() < currentDate.getFullYear() ||
+                    index === 0
                   ) {
                     return (
                       <>
@@ -189,7 +164,9 @@ const Messaging = () => {
                           <div>
                             {currentDate.getDate() +
                               " " +
-                              monthOfYear(currentDate.getMonth())}
+                              monthOfYear(currentDate.getMonth()) +
+                              ", " +
+                              currentDate.getFullYear()}
                           </div>
                         </div>
                         <div key={index} className={classname}>
@@ -204,71 +181,112 @@ const Messaging = () => {
                         </div>
                       </>
                     );
+                  } else if (pastDate !== currentDate) {
+                    if (
+                      pastDate.getMonth() < currentDate.getMonth() ||
+                      pastDate.getMonth() < currentDate.getMonth() ||
+                      pastDate.getDate() !== currentDate.getDate()
+                    ) {
+                      return (
+                        <>
+                          <div className="date-box">
+                            <div>
+                              {currentDate.getDate() +
+                                " " +
+                                monthOfYear(currentDate.getMonth())}
+                            </div>
+                          </div>
+                          <div key={index} className={classname}>
+                            <div className={`bar`}></div>
+                            <div className="second">
+                              <div className="dets">
+                                <div className={"sender"}>{names}</div>
+                                <div className="time-box">{theTime}</div>
+                              </div>
+                              <div className="msg-content">{item.msg}</div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    }
                   }
-                }
-                return (
-                  <div key={index} className={classname}>
-                    <div className={`bar`}></div>
-                    <div className="second">
-                      <div className="dets">
-                        <div className={"sender"}>{names}</div>
-                        <div className="time-box">{theTime}</div>
+                  return (
+                    <div key={index} className={classname}>
+                      <div className={`bar`}></div>
+                      <div className="second">
+                        <div className="dets">
+                          <div className={"sender"}>{names}</div>
+                          <div className="time-box">{theTime}</div>
+                        </div>
+                        <div className="msg-content">{item.msg}</div>
                       </div>
-                      <div className="msg-content">{item.msg}</div>
                     </div>
+                  );
+                })
+              ) : (
+                <>
+                  <div className="no-chat">
+                    <div className="img-box">
+                      <img src={arrow64} alt="" />
+                    </div>
+                    <p>See users in chat</p>
                   </div>
-                );
-              })
-            ) : (
-              <>
-                <div className="no-chat">
-                  <div className="img-box">
-                    <img src={arrow64} alt="" />
+                  <div className="no-chat">
+                    <div className="img-box">
+                      <img src={arrow64} alt="" />
+                    </div>
+                    <p>Send a message</p>
                   </div>
-                  <p>See users in chat</p>
-                </div>
-                <div className="no-chat">
-                  <div className="img-box">
-                    <img src={arrow64} alt="" />
-                  </div>
-                  <p>Send a message</p>
-                </div>
-              </>
-            )}
-          </div>
+                </>
+              )}
+            </div>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (msg.trim() !== "") {
-                chat.push({
-                  name: "me",
-                  msg,
-                  color: "red",
-                  senderId: "0",
-                  dateSent: Date.now(),
-                  avatar,
-                });
-                socket.emit("msgSent", username, msg, Date.now(), avatar);
-                setMsg("");
-              }
-            }}
-            onClick={() => {
-              selected.length > 0 && setSelected("");
-            }}
-          >
-            <input
-              type="text"
-              value={msg}
-              className="chat-input"
-              onChange={(e) => setMsg(e.target.value)}
-              placeholder="Message"
-            />
-            <button type="submit">
-              <img src={send47} alt="" />
-            </button>
-          </form>
-        </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (msg.trim() !== "") {
+                  chat.push({
+                    name: "me",
+                    msg,
+                    color: "red",
+                    senderId: "0",
+                    dateSent: Date.now(),
+                    avatar,
+                  });
+                  socket.emit("msgSent", username, msg, Date.now(), avatar);
+                  setMsg("");
+                }
+              }}
+              onClick={() => {
+                selected.length > 0 && setSelected("");
+              }}
+            >
+              <input
+                type="text"
+                value={msg}
+                className="chat-input"
+                onChange={(e) => setMsg(e.target.value)}
+                placeholder="Message"
+              />
+              <button type="submit">
+                <img src={send47} alt="" />
+              </button>
+            </form>
+          </section>
+          <section className="users-section ipad-plus">
+            <div className="list">
+              <h4>Users</h4>
+              <ul className="others ">
+                {usersAvailable.map((item, index) => (
+                  <li key={index} onClick={() => seeUsers(item.toLowerCase())}>
+                    <span>{item}</span>
+                    <span></span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </main>
       </div>
     </>
   );
