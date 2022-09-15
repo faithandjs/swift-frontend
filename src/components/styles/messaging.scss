@@ -118,7 +118,7 @@ $img_height: clamp(50px, 14%, 100px);
       padding: 20px 0 5px;
       &.msg-box {
         position: relative;
-        width: 75%;
+        width: 80%;
         .msg-area {
           min-height: 67vh;
           padding-bottom: 10px;
@@ -279,7 +279,7 @@ $img_height: clamp(50px, 14%, 100px);
         }
         border-left: 1px solid rgb(230, 230, 230);
         background-color: #ebebeb;
-        width: 25%;
+        width: 20%;
         padding: 40px 20px 5px;
         h4 {
           text-align: center;
