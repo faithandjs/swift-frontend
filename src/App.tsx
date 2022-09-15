@@ -9,7 +9,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<GetStarted />} />
-        <Route path="/chat_room" element={<Messaging />} />
+        <Route path="chat_room" element={<Messaging />} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </>
